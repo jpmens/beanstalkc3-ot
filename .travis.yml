@@ -1,0 +1,24 @@
+language: python
+
+python:
+    - "3.5"
+    - "3.7"
+
+env:
+    global:
+        - BEANSTALKD=./beanstalkd
+
+install:
+    # Install most recent beanstalkd from source
+    - wget https://github.com/beanstalkd/beanstalkd/archive/v1.10.tar.gz
+    - tar xf v1.10.tar.gz
+    - make -C beanstalkd-1.10/
+    - mv beanstalkd-1.10/beanstalkd .
+    # Install Python dependencies.
+    - pip install -r .travis-requirements.txt
+
+script: nosetests -c .nose.cfg
+
+branches:
+    only:
+        - master
